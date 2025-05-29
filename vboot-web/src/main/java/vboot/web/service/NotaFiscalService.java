@@ -1,29 +1,38 @@
 package vboot.web.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import vboot.web.client.SefazClient;
+import vboot.web.model.NotaFiscal;
 
 // 发票服务
 // Serviço de Nota Fiscal
 @Service
 public class NotaFiscalService {
 
-    // 模拟生成NF-e的XML
-    // Simula a geração do XML da NF-e
-    public String gerarXmlNotaFiscal(String dadosNota) {
-        // TODO: 将dadosNota转换为符合SEFAZ格式的XML
-        // TODO: Converter os dados da nota para XML no formato exigido pela SEFAZ
+    @Autowired
+    private SefazClient sefazClient;
 
-        String xmlSimulado = "<nf><valor>100.00</valor><destinatario>Empresa XYZ</destinatario></nf>";
+    // 生成发票的XML格式
+    // Gera o XML da nota fiscal
+    public String gerarXmlNotaFiscal(NotaFiscal nota) {
+        // TODO: 转换NotaFiscal对象为符合SEFAZ的XML格式
+        // TODO: Converter o objeto NotaFiscal para o formato XML exigido pela SEFAZ
+
+        String xmlSimulado = "<nf><valor>" + nota.getValor() + "</valor><destinatario>" + nota.getDestinatario() + "</destinatario></nf>";
         return xmlSimulado;
     }
 
-    // 模拟将XML发送到SEFAZ
-    // Simula o envio do XML para a SEFAZ
-    public String enviarParaSefaz(String xml) {
-        // TODO: 实现调用WebService并处理响应的逻辑
-        // TODO: Implementar chamada ao WebService da SEFAZ e tratar resposta
+    // 将XML发送到SEFAZ（模拟）
+    // Envia o XML para a SEFAZ (simulação)
+    public String enviarParaSefaz(NotaFiscal nota) {
+        String xml = gerarXmlNotaFiscal(nota);
+        boolean sucesso = sefazClient.enviarNota(nota);
 
-        return "NF-e enviada com sucesso (simulação)";
+        if (sucesso) {
+            return "NF-e enviada com sucesso (simulação)";
+        } else {
+            return "Falha ao enviar NF-e";
+        }
     }
 }
-
