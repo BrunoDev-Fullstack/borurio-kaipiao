@@ -34,4 +34,27 @@ public class NotaFiscalController {
         return new ResponseEntity<>("Status da NF-e com chave " + chave + ": AUTORIZADA (simulado)", HttpStatus.OK);
     }
 }
+package vboot.web.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import vboot.web.model.NotaFiscal;
+import vboot.web.service.NotaFiscalService;
+
+// 发票控制器
+// Controlador de Nota Fiscal
+@RestController
+@RequestMapping("/notas")
+public class NotaFiscalController {
+
+    @Autowired
+    private NotaFiscalService notaFiscalService;
+
+    // 模拟发送NF-e到SEFAZ
+    // Simula o envio da NF-e para a SEFAZ
+    @PostMapping("/enviar")
+    public String enviarNota(@RequestBody NotaFiscal nota) {
+        return notaFiscalService.enviarParaSefaz(nota);
+    }
+}
 
